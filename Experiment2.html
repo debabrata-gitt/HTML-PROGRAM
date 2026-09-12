@@ -1,0 +1,551 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Creative Portfolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            background: #0f0c29;
+        }
+
+        
+        body::before {
+            content: "";
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(
+                120deg,
+                #ff0080,
+                #7928ca,
+                #00c6ff,
+                #00f2fe
+            );
+            background-size: 400% 400%;
+            animation: gradient 12s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 20px 8%;
+
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(15px);
+        }
+
+        nav h2 {
+            font-size: 28px;
+        }
+
+        nav h2 span {
+            color: #00f2fe;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00f2fe;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+            padding: 40px 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 65px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #00f2fe;
+        }
+
+        .hero p {
+            font-size: 20px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+
+            color: white;
+            text-decoration: none;
+
+            border-radius: 30px;
+
+            background: linear-gradient(
+                45deg,
+                #ff0080,
+                #7928ca
+            );
+
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.6);
+
+            transition: 0.4s;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.8);
+        }
+
+        /* Section */
+        section {
+            padding: 80px 8%;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 50px;
+        }
+
+        .title span {
+            color: #00f2fe;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+
+            gap: 30px;
+        }
+
+        .card {
+            padding: 35px 25px;
+            text-align: center;
+
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(15px);
+
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+
+            background: rgba(255, 255, 255, 0.2);
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.3),
+                0 0 25px rgba(0, 242, 254, 0.4);
+        }
+
+        .card .icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            line-height: 1.6;
+            color: #eeeeee;
+        }
+
+        /* Skills */
+        .skills {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .skill {
+            margin-bottom: 25px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .bar {
+            width: 100%;
+            height: 12px;
+
+            background: rgba(255, 255, 255, 0.2);
+
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            border-radius: 20px;
+
+            background: linear-gradient(
+                90deg,
+                #ff0080,
+                #00f2fe
+            );
+        }
+
+        .html {
+            width: 95%;
+        }
+
+        .css {
+            width: 90%;
+        }
+
+        .javascript {
+            width: 75%;
+        }
+
+        .python {
+            width: 85%;
+        }
+
+        /* Contact */
+        .contact {
+            text-align: center;
+        }
+
+        .contact p {
+            font-size: 18px;
+            margin: 12px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        footer span {
+            color: #00f2fe;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+
+        <h2>My<span>Portfolio</span></h2>
+
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+    </nav>
+
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <h1>
+                Hello, I'm
+                <span>Debabrata Pan </span>
+            </h1>
+
+            <p>
+                A passionate developer who loves creating
+                beautiful websites, learning new technologies
+                and building creative projects.
+            </p>
+
+            <a href="#services" class="btn">
+                Explore My Work
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- Services -->
+    <section id="services">
+
+        <h2 class="title">
+            My <span>Services</span>
+        </h2>
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="icon">💻</div>
+
+                <h3>Web Development</h3>
+
+                <p>
+                    I create modern and responsive websites
+                    using HTML, CSS and JavaScript.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icon">🎨</div>
+
+                <h3>Web Design</h3>
+
+                <p>
+                    I design colourful, attractive and
+                    user-friendly web interfaces.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icon">🚀</div>
+
+                <h3>Projects</h3>
+
+                <p>
+                    I build creative projects to improve
+                    my programming and development skills.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icon">🤖</div>
+
+                <h3>AI & Python</h3>
+
+                <p>
+                    I explore Python, artificial intelligence
+                    and machine learning technologies.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Skills -->
+    <section id="skills">
+
+        <h2 class="title">
+            My <span>Skills</span>
+        </h2>
+
+        <div class="skills">
+
+            <div class="skill">
+
+                <div class="skill-name">
+                    <span>HTML</span>
+                    <span>95%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="progress html"></div>
+                </div>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-name">
+                    <span>CSS</span>
+                    <span>90%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="progress css"></div>
+                </div>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-name">
+                    <span>JavaScript</span>
+                    <span>75%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="progress javascript"></div>
+                </div>
+
+            </div>
+
+
+            <div class="skill">
+
+                <div class="skill-name">
+                    <span>Python</span>
+                    <span>85%</span>
+                </div>
+
+                <div class="bar">
+                    <div class="progress python"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+
+        <h2 class="title">
+            Contact <span>Me</span>
+        </h2>
+
+        <p>📧 Email: pandebabrata380@gmail.com</p>
+
+        <p>📱 Phone: +91 8653796272</p>
+
+        <p>📍 Location:Barasat , Kolkata , West Bengal </p>
+
+        <br>
+
+        <a href="mailto:pandebabrata380@gmail.com" class="btn">
+            Send Message
+        </a>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 <span>My Portfolio</span> |
+            Made with ❤️ using HTML & CSS
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        // Simple welcome message
+        window.onload = function () {
+
+            console.log(
+                "Welcome to my colourful portfolio!"
+            );
+
+        };
+
+    </script>
+
+</body>
+
+</html>
+```
