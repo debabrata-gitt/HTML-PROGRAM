@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora — Creative Portfolio</title>
+<meta name="description" content="A cinematic creative portfolio website.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#050505;
+  --text:#f4f0e9;
+  --muted:#9a9690;
+  --line:rgba(255,255,255,.12);
+  --orange:#ff5a1f;
+  --gold:#f2a24a;
+  --card:#0c0c0c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;
+  overflow-x:hidden;cursor:none;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--orange);color:#fff}
+
+/* Cursor */
+.cursor,.cursor-dot{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor{width:34px;height:34px;border:1px solid rgba(255,255,255,.65);transition:.12s}
+.cursor-dot{width:5px;height:5px;background:#fff}
+
+/* Noise */
+.noise{
+  position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+/* Navigation */
+nav{
+  position:fixed;top:0;left:0;width:100%;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:26px 5vw;mix-blend-mode:difference;color:#fff;
+}
+.logo{font-weight:900;letter-spacing:-.08em;font-size:20px}
+.logo span{color:var(--orange)}
+.navlinks{display:flex;gap:28px;font-size:12px;text-transform:uppercase;letter-spacing:.16em}
+.navlinks a{opacity:.7;transition:.3s}.navlinks a:hover{opacity:1}
+.menu{display:none}
+
+/* Hero */
+.hero{
+  min-height:100vh;position:relative;display:flex;align-items:center;
+  padding:120px 7vw 80px;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:-15%;
+  background:
+    radial-gradient(circle at 73% 40%,rgba(255,80,20,.22),transparent 24%),
+    radial-gradient(circle at 25% 70%,rgba(255,160,60,.09),transparent 25%),
+    linear-gradient(120deg,#050505,#120a07 50%,#050505);
+  animation:drift 12s ease-in-out infinite alternate;
+}
+@keyframes drift{to{transform:scale(1.08) translate(-2%,1%)}}
+.orbit{
+  position:absolute;width:70vw;height:70vw;right:-23vw;top:-13vw;
+  border:1px solid rgba(255,142,57,.2);border-radius:50%;
+  box-shadow:0 0 80px rgba(255,91,31,.08);
+  animation:spin 28s linear infinite;
+}
+.orbit:after{
+  content:"";position:absolute;width:12px;height:12px;border-radius:50%;
+  background:#ffd18d;box-shadow:0 0 35px 12px #ff641f;
+  left:11%;top:23%;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-content{position:relative;z-index:2;max-width:1000px}
+.eyebrow{
+  font:12px "DM Mono",monospace;color:var(--gold);letter-spacing:.22em;
+  text-transform:uppercase;margin-bottom:25px;
+}
+.hero h1{
+  font-size:clamp(64px,11vw,170px);line-height:.82;letter-spacing:-.085em;
+  font-weight:900;text-transform:uppercase;
+}
+.hero h1 .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.6)}
+.hero h1 .orange{color:var(--orange)}
+.hero-sub{
+  margin-top:38px;max-width:520px;color:#b4afa8;line-height:1.7;font-size:15px
+}
+.hero-actions{display:flex;gap:14px;margin-top:34px;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:15px 21px;border:1px solid var(--line);
+  text-transform:uppercase;letter-spacing:.12em;font-size:11px;transition:.35s;
+}
+.btn.primary{background:#f2eee7;color:#080808;border-color:#f2eee7}
+.btn:hover{transform:translateY(-3px);background:var(--orange);color:#fff;border-color:var(--orange)}
+.scroll{
+  position:absolute;bottom:30px;left:7vw;font:10px "DM Mono";color:#777;
+  letter-spacing:.2em;text-transform:uppercase;
+}
+
+/* Marquee */
+.marquee{border-block:1px solid var(--line);overflow:hidden;white-space:nowrap}
+.marquee-track{display:inline-flex;gap:35px;padding:17px 0;animation:marquee 22s linear infinite}
+.marquee span{font-size:12px;text-transform:uppercase;letter-spacing:.22em;color:#aaa}
+.marquee b{color:var(--orange)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* General */
+section{padding:130px 7vw;position:relative}
+.section-top{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:55px}
+.kicker{font:11px "DM Mono";color:var(--orange);letter-spacing:.18em;text-transform:uppercase}
+.section-title{font-size:clamp(40px,6vw,86px);letter-spacing:-.07em;line-height:.9;text-transform:uppercase}
+.section-copy{max-width:330px;color:#85817c;font-size:13px;line-height:1.7}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:9vw}
+.about-big{font-size:clamp(28px,4vw,57px);line-height:1.04;letter-spacing:-.045em}
+.about-big em{font-style:normal;color:var(--orange)}
+.stats{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.stat{padding:25px 0;border-bottom:1px solid var(--line)}
+.stat strong{display:block;font-size:42px;letter-spacing:-.06em}.stat small{color:#777}
+
+/* Projects */
+.projects{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.project{
+  position:relative;min-height:520px;overflow:hidden;border:1px solid var(--line);
+  background:#111;isolation:isolate;
+}
+.project:nth-child(1){grid-column:span 7}
+.project:nth-child(2){grid-column:span 5;margin-top:90px}
+.project:nth-child(3){grid-column:span 5}
+.project:nth-child(4){grid-column:span 7;margin-top:90px}
+.project-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:1s}
+.project:nth-child(1) .project-bg{background:
+ linear-gradient(135deg,rgba(15,5,2,.1),rgba(255,74,19,.38)),
+ radial-gradient(circle at 70% 35%,#f9b36a,#6d1708 25%,#090909 63%)}
+.project:nth-child(2) .project-bg{background:
+ linear-gradient(135deg,#160805,#020202 55%,#31110a);
+}
+.project:nth-child(3) .project-bg{background:
+ linear-gradient(135deg,#20180f,#050505 48%,#5b1c0c);
+}
+.project:nth-child(4) .project-bg{background:
+ linear-gradient(135deg,#250b06,#090909 55%,#161616);
+}
+.project:hover .project-bg{transform:scale(1.08)}
+.project:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(0,0,0,.88))}
+.project-info{position:absolute;z-index:2;left:28px;right:28px;bottom:27px}
+.project-number{font:10px "DM Mono";color:#aaa}.project h3{font-size:31px;letter-spacing:-.05em;margin:8px 0}
+.project p{font-size:12px;color:#aaa;max-width:390px}
+.project-arrow{
+  position:absolute;right:25px;top:25px;width:46px;height:46px;border:1px solid rgba(255,255,255,.3);
+  display:grid;place-items:center;border-radius:50%;font-size:20px;z-index:2
+}
+
+/* Creative universe */
+.universe{
+  min-height:80vh;display:grid;place-items:center;text-align:center;overflow:hidden;
+  background:radial-gradient(circle,rgba(255,70,20,.11),transparent 38%);
+}
+.universe-orbit{position:absolute;width:620px;height:620px;border:1px solid rgba(255,100,35,.16);border-radius:50%;animation:spin 35s linear infinite}
+.universe-orbit:nth-child(2){width:820px;height:820px;animation-direction:reverse}
+.universe h2{font-size:clamp(55px,10vw,150px);line-height:.8;letter-spacing:-.09em;position:relative;z-index:2}
+.universe h2 span{color:var(--orange)}
+.tools{
+  position:absolute;inset:0;pointer-events:none
+}
+.tool{
+  position:absolute;padding:14px 18px;border:1px solid rgba(255,255,255,.14);
+  background:rgba(10,10,10,.7);backdrop-filter:blur(8px);font-size:12px;
+  box-shadow:0 15px 50px rgba(0,0,0,.4);animation:float 4s ease-in-out infinite;
+}
+.tool:nth-child(1){left:12%;top:27%}.tool:nth-child(2){right:14%;top:20%;animation-delay:.7s}
+.tool:nth-child(3){left:20%;bottom:20%;animation-delay:1.2s}.tool:nth-child(4){right:18%;bottom:25%;animation-delay:1.8s}
+.tool:nth-child(5){left:43%;top:15%;animation-delay:2.2s}.tool:nth-child(6){right:39%;bottom:13%;animation-delay:2.8s}
+@keyframes float{50%{transform:translateY(-13px) rotate(1deg)}}
+
+/* Timeline */
+.timeline{position:relative;margin-top:50px}
+.timeline:before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line)
+}
+.time-item{width:50%;padding:30px 7%;position:relative}
+.time-item:nth-child(even){margin-left:50%;text-align:left}
+.time-item:nth-child(odd){text-align:right}
+.time-item:after{
+  content:"";position:absolute;top:39px;width:9px;height:9px;border-radius:50%;
+  background:var(--orange);box-shadow:0 0 18px var(--orange)
+}
+.time-item:nth-child(odd):after{right:-5px}.time-item:nth-child(even):after{left:-4px}
+.time-year{font:12px "DM Mono";color:var(--orange)}.time-item h3{font-size:28px;margin:8px 0}.time-item p{color:#777;font-size:12px;line-height:1.6}
+
+/* Contact */
+.contact{min-height:75vh;display:flex;align-items:center;justify-content:space-between;gap:50px}
+.contact h2{font-size:clamp(55px,10vw,145px);line-height:.8;letter-spacing:-.09em}
+.contact h2 span{color:var(--orange)}
+.contact-right{max-width:330px}.contact-right p{color:#888;line-height:1.7;font-size:13px;margin-bottom:25px}
+.socials{display:flex;gap:18px;margin-top:28px}
+.socials a{font:11px "DM Mono";text-transform:uppercase;border-bottom:1px solid #555;padding-bottom:6px}
+
+/* Footer */
+footer{padding:30px 7vw;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:#666;font:10px "DM Mono";text-transform:uppercase;letter-spacing:.12em}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(35px);transition:1s cubic-bezier(.2,.7,.2,1)}
+.reveal.show{opacity:1;transform:none}
+
+/* Mobile */
+@media(max-width:760px){
+  body{cursor:auto}
+  .cursor,.cursor-dot{display:none}
+  nav{padding:20px 5vw}.navlinks{display:none}.menu{display:block;font-size:11px;letter-spacing:.15em}
+  .hero{padding:130px 6vw 80px;min-height:92vh}
+  .hero h1{font-size:18vw}
+  .hero-sub{font-size:13px}
+  section{padding:90px 6vw}
+  .section-top{display:block}.section-copy{margin-top:20px}
+  .about-grid{grid-template-columns:1fr;gap:45px}
+  .projects{display:block}
+  .project,.project:nth-child(2),.project:nth-child(4){margin:0 0 18px;min-height:470px}
+  .universe-orbit{width:390px;height:390px}.universe-orbit:nth-child(2){width:520px;height:520px}
+  .tool:nth-child(1){left:4%;top:25%}.tool:nth-child(2){right:4%;top:16%}
+  .tool:nth-child(3){left:5%;bottom:20%}.tool:nth-child(4){right:5%;bottom:26%}
+  .tool:nth-child(5){left:38%;top:9%}.tool:nth-child(6){right:35%;bottom:10%}
+  .timeline:before{left:8px}.time-item,.time-item:nth-child(even){width:100%;margin:0;text-align:left;padding-left:35px;padding-right:0}
+  .time-item:after,.time-item:nth-child(odd):after,.time-item:nth-child(even):after{left:4px;right:auto}
+  .contact{display:block;min-height:auto}.contact-right{margin-top:50px}
+  footer{display:block;line-height:2}.footer-right{margin-top:8px}
+}
+</style>
+</head>
+
+<body>
+<div class="noise"></div>
+<div class="cursor"></div><div class="cursor-dot"></div>
+
+<nav>
+  <a href="#home" class="logo">NEXORA<span>.</span></a>
+  <div class="navlinks">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#timeline">Journey</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="menu">MENU</div>
+</nav>
+
+<header class="hero" id="home">
+  <div class="hero-bg"></div><div class="orbit"></div>
+  <div class="hero-content reveal">
+    <div class="eyebrow">Creative Portfolio / 2026</div>
+    <h1>CREATE<br><span class="stroke">BEYOND</span><br><span class="orange">LIMITS.</span></h1>
+    <p class="hero-sub">A cinematic digital portfolio for designers, developers and visual creators who want their work to feel like an experience — not just another website.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#work">Explore Work ↗️</a>
+      <a class="btn" href="#contact">Let's Talk</a>
+    </div>
+  </div>
+  <div class="scroll">↓ Scroll to explore</div>
+</header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Design <b>✦</b></span><span>Development <b>✦</b></span><span>Motion <b>✦</b></span><span>Creative Direction <b>✦</b></span>
+    <span>Design <b>✦</b></span><span>Development <b>✦</b></span><span>Motion <b>✦</b></span><span>Creative Direction <b>✦</b></span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="section-top reveal">
+    <div><div class="kicker">01 — About</div><h2 class="section-title">The<br>Creator</h2></div>
+    <p class="section-copy">Strategy, design, code and motion combined into one visual language.</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-big reveal">I turn <em>ideas</em> into digital experiences that feel bold, cinematic and impossible to ignore.</div>
+    <div class="stats reveal">
+      <div class="stat"><strong>04+</strong><small>Years creating</small></div>
+      <div class="stat"><strong>35+</strong><small>Projects</small></div>
+      <div class="stat"><strong>12</strong><small>Creative skills</small></div>
+      <div class="stat"><strong>∞</strong><small>Ideas left</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-top reveal">
+    <div><div class="kicker">02 — Selected Work</div><h2 class="section-title">Projects</h2></div>
+    <p class="section-copy">Replace these cards with your real projects, GitHub builds, posters, websites or edits.</p>
+  </div>
+
+  <div class="projects">
+    <article class="project reveal">
+      <div class="project-bg"></div><div class="project-arrow">↗️</div>
+      <div class="project-info"><span class="project-number">01 / WEB EXPERIENCE</span><h3>Midnight Interface</h3><p>A dark cinematic landing page with immersive motion and experimental typography.</p></div>
+    </article>
+    <article class="project reveal">
+      <div class="project-bg"></div><div class="project-arrow">↗️</div>
+      <div class="project-info"><span class="project-number">02 / BRANDING</span><h3>Nexora Studio</h3><p>Visual identity and digital direction for a next-generation creative agency.</p></div>
+    </article>
+    <article class="project reveal">
+      <div class="project-bg"></div><div class="project-arrow">↗️</div>
+      <div class="project-info"><span class="project-number">03 / AI × DESIGN</span><h3>Creative Universe</h3><p>An experimental visual system connecting AI tools, design and imagination.</p></div>
+    </article>
+    <article class="project reveal">
+      <div class="project-bg"></div><div class="project-arrow">↗️</div>
+      <div class="project-info"><span class="project-number">04 / VISUAL ART</span><h3>Redline</h3><p>A high-contrast automotive campaign built around light, speed and attitude.</p></div>
+    </article>
+  </div>
+</section>
+
+<section class="universe" id="skills">
+  <div class="universe-orbit"></div><div class="universe-orbit"></div>
+  <div class="tools">
+    <div class="tool">Figma</div><div class="tool">After Effects</div><div class="tool">React</div>
+    <div class="tool">Three.js</div><div class="tool">Photoshop</div><div class="tool">AI Tools</div>
+  </div>
+  <div class="reveal">
+    <div class="kicker">03 — Creative Stack</div>
+    <h2>THE<br><span>CREATIVE</span><br>UNIVERSE</h2>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="section-top reveal">
+    <div><div class="kicker">04 — Journey</div><h2 class="section-title">Timeline</h2></div>
+    <p class="section-copy">A simple cinematic timeline inspired by the year-by-year sequence in your reference video.</p>
+  </div>
+  <div class="timeline">
+    <div class="time-item reveal"><span class="time-year">2023</span><h3>Started Creating</h3><p>First serious steps into digital design, editing and creative experimentation.</p></div>
+    <div class="time-item reveal"><span class="time-year">2024</span><h3>Built & Learned</h3><p>Expanded into web development, UI design and motion-driven experiences.</p></div>
+    <div class="time-item reveal"><span class="time-year">2025</span><h3>Freelance Era</h3><p>Real projects, visual campaigns and a growing collection of creative work.</p></div>
+    <div class="time-item reveal"><span class="time-year">2026</span><h3>Nexora</h3><p>One portfolio. One creative identity. A bigger direction.</p></div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="reveal"><div class="kicker">05 — Contact</div><h2>LET'S<br><span>CREATE.</span></h2></div>
+  <div class="contact-right reveal">
+    <p>Have an idea, project or collaboration in mind? Replace the details below with your own email and social links.</p>
+    <a class="btn primary" href="mailto:hello@example.com">hello@example.com ↗️</a>
+    <div class="socials">
+      <a href="#" target="_blank">Instagram</a>
+      <a href="#" target="_blank">GitHub</a>
+      <a href="#" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Nexora Studio</span>
+  <span class="footer-right">Built with HTML / CSS / JavaScript</span>
+</footer>
+
+<script>
+/* Cinematic cursor */
+const cursor=document.querySelector('.cursor');
+const dot=document.querySelector('.cursor-dot');
+window.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px';
+  dot.style.left=e.clientX+'px'; dot.style.top=e.clientY+'px';
+});
+document.querySelectorAll('a,.project,.btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(1.8)';cursor.style.borderColor='#ff5a1f'});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';cursor.style.borderColor='rgba(255,255,255,.65)'});
+});
+
+/* Scroll reveal */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{if(entry.isIntersecting) entry.target.classList.add('show')});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* Small parallax effect */
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  const orbit=document.querySelector('.orbit');
+  if(orbit) orbit.style.transform=translateY(${y*.08}px);
+});
+</script>
+</body>
+</html>
